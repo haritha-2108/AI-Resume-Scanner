@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analysis Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 1000px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: #4a6fa5;
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-weight: 600;
+            font-size: 28px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .candidate-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+        
+        .candidate-details {
+            flex: 1;
+        }
+        
+        .candidate-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .candidate-title {
+            color: #7f8c8d;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .score-card {
+            background: linear-gradient(135deg, #4a6fa5 0%, #2a4a76 100%);
+            color: white;
+            border-radius: 12px;
+            padding: 20px;
+            width: 180px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(42, 74, 118, 0.2);
+        }
+        
+        .score-value {
+            font-size: 42px;
+            font-weight: 700;
+            line-height: 1;
+            margin: 10px 0;
+        }
+        
+        .score-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #4a6fa5;
+            display: inline-block;
+        }
+        
+        .analysis-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #4a6fa5;
+        }
+        
+        .analysis-box h4 {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .analysis-list {
+            list-style-type: none;
+        }
+        
+        .analysis-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .analysis-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .list-icon {
+            color: #4a6fa5;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .strength .list-icon {
+            color: #27ae60;
+        }
+        
+        .weakness .list-icon {
+            color: #e74c3c;
+        }
+        
+        .suggestion .list-icon {
+            color: #f39c12;
+        }
+        
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+        
+        .btn-primary {
+            background: #4a6fa5;
+            color: white;
+            box-shadow: 0 4px 10px rgba(74, 111, 165, 0.25);
+        }
+        
+        .btn-primary:hover {
+            background: #3a5a80;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(74, 111, 165, 0.35);
+        }
+        
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #4a6fa5;
+            border: 1px solid #4a6fa5;
+        }
+        
+        .btn-secondary:hover {
+            background: #eaeaea;
+            transform: translateY(-2px);
+        }
+        
+        .no-data {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        @media (max-width: 768px) {
+            .candidate-info {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .score-card {
+                margin-top: 20px;
+            }
+            
+            .buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Resume Analysis Result</h1>
+        </div>
+        
+        <div class="content">
+            <div class="candidate-info">
+                <div class="candidate-details">
+                    <h2 class="candidate-name">Mariana Anderson</h2>
+                    <p class="candidate-title">Software Engineer</p>
+                    <p>Email: mariana.anderson@example.com | Phone: (555) 123-4567</p>
+                </div>
+                
+                <div class="score-card">
+                    <div class="score-label">MATCH SCORE</div>
+                    <div class="score-value">82%</div>
+                    <div class="score-description">Strong Match</div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Strengths</h3>
+                <div class="analysis-box">
+                    <ul class="analysis-list">
+                        <li class="strength">
+                            <span class="list-icon">✓</span>
+                            <span>Strong programming skills in Python and JavaScript with 5+ years of experience</span>
+                        </li>
+                        <li class="strength">
+                            <span class="list-icon">✓</span>
+                            <span>Experience with modern web frameworks including Django, React, and Node.js</span>
+                        </li>
+                        <li class="strength">
+                            <span class="list-icon">✓</span>
+                            <span>Excellent problem-solving abilities and track record of delivering projects on time</span>
+                        </li>
+                        <li class="strength">
+                            <span class="list-icon">✓</span>
+                            <span>Effective communication skills and experience working in agile teams</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Weaknesses</h3>
+                <div class="analysis-box">
+                    <ul class="analysis-list">
+                        <li class="weakness">
+                            <span class="list-icon">⚠</span>
+                            <span>Limited experience with cloud technologies like AWS or Azure</span>
+                        </li>
+                        <li class="weakness">
+                            <span class="list-icon">⚠</span>
+                            <span>No formal certifications in relevant technologies</span>
+                        </li>
+                        <li class="weakness">
+                            <span class="list-icon">⚠</span>
+                            <span>Lack of experience in containerization technologies like Docker</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title">Suggestions to Improve Resume</h3>
+                <div class="analysis-box">
+                    <ul class="analysis-list">
+                        <li class="suggestion">
+                            <span class="list-icon">•</span>
+                            <span>Obtain AWS Certified Developer Associate certification to strengthen cloud credentials</span>
+                        </li>
+                        <li class="suggestion">
+                            <span class="list-icon">•</span>
+                            <span>Add metrics to quantify achievements (e.g., "Improved application performance by 40%")</span>
+                        </li>
+                        <li class="suggestion">
+                            <span class="list-icon">•</span>
+                            <span>Include side projects using Docker to demonstrate containerization skills</span>
+                        </li>
+                        <li class="suggestion">
+                            <span class="list-icon">•</span>
+                            <span>Highlight leadership experience and specific project outcomes</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="buttons">
+                    <a href="{% url 'index' %}" class="btn btn-primary">Scan Another Resume</a>
+                    <button class="btn btn-secondary" id="downloadBtn">Download Full Report</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // Simple animation for elements when page loads
+       document.getElementById('downloadBtn').addEventListener('click', function() {
+    // Capture the entire page
+    html2canvas(document.body).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'pt', 'a4');
+
+        const imgWidth = pdf.internal.pageSize.getWidth();
+        const imgHeight = canvas.height * imgWidth / canvas.width;
+
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+        pdf.save('Resume_Analysis_Report.pdf');
+    });
+});
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const elements = document.querySelectorAll('.candidate-info, .section');
+            
+            elements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.style.opacity = 1;
+                    element.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+
+        // Initial styles for animation
+        const styles = `
+            .candidate-info, .section {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.5s ease, transform 0.5s ease;
+            }
+        `;
+        const styleSheet = document.createElement('style');
+        styleSheet.innerText = styles;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+</html>

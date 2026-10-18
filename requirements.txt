@@ -1,0 +1,7 @@
+Django==5.0.7
+spacy==3.8.14
+scikit-learn==1.5.1
+PyPDF2==3.0.1
+python-docx==1.1.2
+pandas==2.2.3
+python-dotenv
